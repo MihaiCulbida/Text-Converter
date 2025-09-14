@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Converter</title>
+<style>
+
+body {
+    height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e0f2fe;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    background: #fff;
+    padding: 20px 24px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+textarea {
+    width: 95%;
+    height: 160px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    font-family: 'Segoe UI', sans-serif;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 8px rgba(56,189,248,0.3);
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #38bdf8;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background: #0ea5e9;
+}
+
+.clear-btn {
+    display: flex;
+    justify-content: center;        
+}
+
+.clear-btn button {
+    padding: 10px 16px;
+    border: none;
+    text-align: center;
+    border-radius: 8px;
+    background: #a8a8a8; 
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.clear-btn button:hover {
+    background: #777777; 
+}
+
+
+.output {
+    min-height: 80px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 16px;
+    background: #f9fafb;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.copy-btn {
+    background: #22c55e;
+}
+
+.copy-btn:hover {
+    background: #16a34a;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <textarea id="inputText" placeholder="Paste or type your text here..."></textarea>
+    <div class="buttons">
+        <button onclick="convert('lower')">lowercase</button>
+        <button onclick="convert('upper')">UPPERCASE</button>
+        <button onclick="convert('title')">Title Case</button>
+    </div>
+    <div class="clear-btn">
+        <button onclick="clearText()">Clear</button>
+    </div>
+    <div class="output" id="outputText"></div>
+    <button class="buttons copy-btn" onclick="copyText()">Copy Output</button>
+</div>
+
+<script>
+
+function convert(type) {
+    const text = document.getElementById("inputText").value;
+    let result = "";
+    if(type === "lower") {
+        result = text.toLowerCase();
+    } else if(type === "upper") {
+        result = text.toUpperCase();
+    } else if(type === "title") {
+        result = text.toLowerCase().split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+    }
+    document.getElementById("outputText").textContent = result;
+}
+
+function copyText() {
+    const output = document.getElementById("outputText").textContent;
+    if(!output) return;
+    navigator.clipboard.writeText(output).then(() => {
+        alert("Copied to clipboard");
+    });
+}
+
+function clearText() {
+    document.getElementById("inputText").value = "";
+    document.getElementById("outputText").textContent = "";
+}
+
+</script>
+</body>
+</html>
